@@ -1,0 +1,33 @@
+class NumMatrix {
+    int[][] prefix;
+    public NumMatrix(int[][] matrix) {
+        int ROWS = matrix.length;
+        int COLS = matrix[0].length;
+        prefix = new int[ROWS + 1][COLS + 1];
+
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                prefix[r + 1][c + 1] = matrix[r][c] +
+                prefix[r][c + 1] +
+                prefix[r + 1][c] -
+                prefix[r][c];
+            }
+        }
+    }
+    
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+        int r1 = row1, c1 = col1;
+        int r2 = row2 + 1, c2 = col2 + 1;
+
+        return prefix[r2][c2] -
+        prefix[r1][c2] -
+        prefix[r2][c1] +
+        prefix[r1][c1];
+    }
+}
+
+/**
+ * Your NumMatrix object will be instantiated and called as such:
+ * NumMatrix obj = new NumMatrix(matrix);
+ * int param_1 = obj.sumRegion(row1,col1,row2,col2);
+ */
